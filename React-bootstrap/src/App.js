@@ -7,22 +7,16 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-          <Navbar>
-            <Navbar.Header>
-              <Navbar>
-                <h1>Find my favorite item</h1>
-              <Navbar.Form pullLeft>
-                <FormGroup>
-                  <FormControl type="text" placeholder="Search" />
-                </FormGroup>{' '}
-                <Button type="submit">Submit</Button>
-              </Navbar.Form>
-              </Navbar>
-              <Navbar.Toggle />
-            </Navbar.Header>
-            <Navbar.Collapse>
-            </Navbar.Collapse>
-          </Navbar>
+        <Navbar>
+          <h3>unpackit</h3>
+          <h1>Find my favorite item</h1>
+          <Navbar.Form>
+            <FormGroup>
+              <FormControl type="text" placeholder="Search" />
+            </FormGroup>{' '}
+            <Button type="submit">Submit</Button>
+          </Navbar.Form>
+        </Navbar>
 
         <Grid>
           <Row>
@@ -37,9 +31,7 @@ class App extends Component {
             </Col>
           </Row>
         </Grid>
-
         {/*    <h1>Thing outside of the box</h1> */}
-
       </div>
     );
   }
