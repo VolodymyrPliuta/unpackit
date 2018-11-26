@@ -83,6 +83,14 @@ class App extends Component {
     console.log({ box, item });
   };
 
+  componentDidUpdate() {
+    if (!this.state.boxWithItem) {
+      this.show();
+    } else {
+      this.state.boxWithItem = '';
+    }
+  }
+
   render() {
     let there =
       this.state.boxWithItem !== '' && this.state.word
