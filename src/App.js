@@ -32,34 +32,31 @@ class App extends Component {
       box3: ['Pen', 'Toilet Paper'],
     };
 
-    const getValueFromBox = (boxes, getValue, _, __) =>
-      Object.keys(boxes).reduce((accum, box) => {
+    const getValueFromBox = (boxes, getValue) => (
+      Object.keys(boxes).reduce((accum, box, index, arr) => {
         let value = getValue(boxes[box]);
         if (value) {
-          console.log({ value });
-          return { box: box, item: value, ...accum };
+          accum.push(arr[index], value, ...accum);
+          arr.splice(1); // mutation allows us to break/shortcut out of the reduce.
+          return accum;
         }
         return accum;
-      }, {});
+      }, [])
+    );
 
-    const getValue = currBox =>
-      //currBox.reduce((accum, value, index, resp) => {
-      //  if (value.toUpperCase() === this.state.word) {
-      //    console.log('reached');
-      //    accum = value;
-      //    return accum;
-      //  }
-      //});
-      currBox.reduce((accum, value, _, __) => {
+    const getValue = currBox => (
+      currBox.reduce((accum, value, _, arr) => {
         if (value.toUpperCase() === this.state.word) {
-          accum += value;
+          accum.push(value);
+          arr.splice(1); // mutation allows us to break/shortcut out of the reduce.
           return accum;
         }
         return accum; // this is never used.
-      }, '');
+      }, [])
+    );
 
     let show = () => {
-      const { box, item } = getValueFromBox(boxes, getValue);
+      const [box, item] = getValueFromBox(boxes, getValue);
       this.setState({ boxWithItem: box });
       console.log({ box, item });
       //        console.log('boxes reached', value: boxes[box] )
