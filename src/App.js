@@ -32,34 +32,51 @@ class App extends Component {
       box3: ['Pen', 'Toilet Paper'],
     };
 
-    const getValueFromBox = (boxes, getValue) => (
-      Object.keys(boxes).reduce((accum, box, index, arr) => {
-        let value = getValue(boxes[box]);
-        if (value) {
-          accum.push(arr[index], value, ...accum);
-          arr.splice(1); // mutation allows us to break/shortcut out of the reduce.
-          return accum;
-        }
-        return accum;
-      }, [])
-    );
+    // // better for if you ever want to handle duplicates.
+    //  const getValueFromBox = (boxes, getValue) =>
+    //    Object.keys(boxes).reduce((accum, box, index, arr) => {
+    //      let value = getValue(boxes[box]);
+    //      if (value) {
+    //        accum.push(arr[index], value, ...accum);
+    //        return accum;
+    //      }
+    //      return accum;
+    //    }, []);
 
-    const getValue = currBox => (
-      currBox.reduce((accum, value, _, arr) => {
-        if (value.toUpperCase() === this.state.word) {
-          accum.push(value);
-          arr.splice(1); // mutation allows us to break/shortcut out of the reduce.
-          return accum;
+    //  const getValue = currBox =>
+    //    currBox.reduce((accum, value, _, arr) => {
+    //      if (value.toUpperCase() === this.state.word) {
+    //        accum.push(value);
+    //        return accum;
+    //      }
+    //      return accum; // this is never used.
+    //    }, []);
+
+    // this implementation will need to pop off values and do additional searches if worried about duplicates such as ... 3 different types of mouse's. For a quicker way to handle that look at the reduce solution above.
+    const forLoopGetValueFromBox = ({ boxes, forLoopGetValue }) => {
+      for (let i = 0; i < Object.keys(boxes).length; i++) {
+        let boxArray = Object.keys(boxes);
+        let value = forLoopGetValue(i, boxArray[i], boxes[boxArray[i]]);
+        if (value) return value;
+      }
+      // reached the end so return an empty array.
+      return [];
+    };
+
+    const forLoopGetValue = (currBoxIndex, boxName, currBox) => {
+      for (let y = 0; currBox.length > y; y++) {
+        if (currBox[y].toUpperCase() === this.state.word) {
+          const item = currBox[y];
+          console.log({ boxName, currBox });
+          return [boxName, item];
         }
-        return accum; // this is never used.
-      }, [])
-    );
+      }
+    };
 
     let show = () => {
-      const [box, item] = getValueFromBox(boxes, getValue);
-      this.setState({ boxWithItem: box });
+      const [box, item] = forLoopGetValueFromBox({ boxes, forLoopGetValue });
+      if (item) this.setState({ boxWithItem: box });
       console.log({ box, item });
-      //        console.log('boxes reached', value: boxes[box] )
     };
 
     let there =
