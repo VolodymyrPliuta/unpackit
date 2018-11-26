@@ -32,25 +32,37 @@ class App extends Component {
       box3: ['Pen', 'Toilet Paper'],
     };
 
-    let show = () => {
-      Object.keys(boxes).map((box, index) => {
-        //console.log({ box, index, value: boxes[box] });
-        boxes[box].map((value, index) => {
-          console.log({ value, index });
-          return { index, value };
-        });
-      });
-      //        console.log('boxes reached', value: boxes[box] )
-      for (let i = 0; i < Object.keys(boxes).length; i++) {
-        let boxArray = Object.keys(boxes);
-        for (let y = 0; boxes[boxArray[i]].length > y; y++) {
-          //          let cappitalItems = boxes[boxArray[i]][y]
-          if (boxes[boxArray[i]][y].toUpperCase() == this.state.word) {
-            console.log(boxArray[i]);
-            this.setState({ boxWithItem: boxArray[i] });
-          }
+    const getValueFromBox = (boxes, getValue, _, __) =>
+      Object.keys(boxes).reduce((accum, box) => {
+        let value = getValue(boxes[box]);
+        if (value) {
+          console.log({ value });
+          return { box: box, item: value, ...accum };
         }
-      }
+        return accum;
+      }, {});
+
+    const getValue = currBox =>
+      //currBox.reduce((accum, value, index, resp) => {
+      //  if (value.toUpperCase() === this.state.word) {
+      //    console.log('reached');
+      //    accum = value;
+      //    return accum;
+      //  }
+      //});
+      currBox.reduce((accum, value, _, __) => {
+        if (value.toUpperCase() === this.state.word) {
+          accum += value;
+          return accum;
+        }
+        return accum; // this is never used.
+      }, '');
+
+    let show = () => {
+      const { box, item } = getValueFromBox(boxes, getValue);
+      this.setState({ boxWithItem: box });
+      console.log({ box, item });
+      //        console.log('boxes reached', value: boxes[box] )
     };
 
     let there =
