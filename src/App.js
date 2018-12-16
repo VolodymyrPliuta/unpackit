@@ -1,11 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import {
-  Nav,
   Navbar,
-  NavItem,
-  MenuItem,
-  NavDropdown,
   FormGroup,
   FormControl,
   Button,
