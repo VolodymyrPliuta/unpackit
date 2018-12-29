@@ -10,7 +10,6 @@ import {
   Col,
   Image,
 } from 'react-bootstrap';
-import ThreeColumns from './components/three-columns';
 
 class App extends Component {
   constructor(props) {
